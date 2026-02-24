@@ -1,0 +1,12 @@
+# Base de datos
+db.sqlite3
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales (Por si en el futuro metes uno aquí)
+env/
+venv/
+redesuno/

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Usuarios Registrados</h2>
+    
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'menu_principal' %}" class="btn btn-secondary">&larr; Volver al Menú</a>
+        <a href="{% url 'registrar_usuario' %}" class="btn btn-primary">+ Agregar Usuario</a>
+    </div>
+    
+    <div class="card shadow">
+        <div class="card-body">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID Tarjeta (UID)</th>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td><strong>{{ usuario.id_Tarjeta }}</strong></td>
+                        <td>{{ usuario.nombre_Usuario }}</td>
+                        <td>{{ usuario.rol_Usuario }}</td>
+                        <td>
+                            <a href="{% url 'eliminar_usuario' usuario.id_Tarjeta %}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario.nombre_Usuario }}?');">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No hay usuarios registrados en el sistema.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
