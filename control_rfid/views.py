@@ -96,3 +96,27 @@ def eliminar_usuario(request, id_tarjeta):
     
     # Redirigimos de vuelta a la lista de usuarios para ver los cambios
     return redirect('lista_usuarios')
+
+@csrf_exempt
+def api_registrar_tarjeta(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            uid_recibido = data.get('id_Tarjeta')
+
+            # 1. Verificar si la tarjeta ya existe para no duplicarla
+            if Usuario.objects.filter(id_Tarjeta=uid_recibido).exists():
+                return JsonResponse({'exito': False, 'mensaje': 'La tarjeta ya está registrada.'})
+
+            # 2. Guardar la nueva tarjeta con un nombre temporal
+            Usuario.objects.create(
+                id_Tarjeta=uid_recibido,
+                nombre_Usuario='Usuario Pendiente (Editar)',
+                rol_Usuario='Estudiante' # Rol por defecto
+            )
+            return JsonResponse({'exito': True, 'mensaje': 'Tarjeta registrada correctamente.'})
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
